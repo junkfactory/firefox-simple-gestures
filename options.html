@@ -19,24 +19,26 @@
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR 
 // A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN 
-// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH 
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISINt FROM, OUT OF OR IN CONNECTION WITH 
 // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */ 
 -->
 
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SimpleGestures Options</title>
-    <link rel="stylesheet" href="options.css" />
+    <link href="options.css" rel="stylesheet" />
   </head>
-
-  <h1><img class="logo" src="app_icon.png" />SimpleGestures Configuration</h1>
-  <p>Use mouse right button to hold and drag to activate a gesture.</p>
-  <p class="note">
-    Note: Valid gesture values are U (up), D (down), L (left), R (right)
-  </p>
-
   <body>
+    <h1><img class="logo" src="app_icon.png" />SimpleGestures Configuration</h1>
+    <p>Use mouse right button to hold and drag to activate a gesture.</p>
+    <p class="note">
+      Note: Valid gesture values are U (up), D (down), L (left), R (right)
+    </p>
+
     <form id="option_form">
       <input type="radio" name="tabs" id="configGeneral" checked />
       <label for="configGeneral">General</label>
@@ -133,4 +135,3 @@
   <script src="lib.js"></script>
   <script src="options.js"></script>
 </html>
-

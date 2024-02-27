@@ -231,7 +231,6 @@ function saveConfiguration(e) {
 function restoreOptions() {
   browser.storage.local.get("simple_gestures_config", (result) => {
     var config = result.simple_gestures_config;
-    console.log("options", config);
     var trailEnabled = $("#trail");
     trailEnabled.checked = config.trailEnabled;
 
@@ -265,7 +264,7 @@ function restoreOptions() {
 }
 
 $().addEventListener("DOMContentLoaded", function () {
-  browser.action.setBadgeText({ text: "" });
+  browser.browserAction.setBadgeText({ text: "" });
   restoreOptions();
   var tabNav = $("input[name=tabs]");
   tabNav.forEach((t) => {

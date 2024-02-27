@@ -37,8 +37,8 @@ const config = {
 
 browser.runtime.onInstalled.addListener((details) => {
   if (details && details.reason == "update") {
-    browser.action.setBadgeBackgroundColor({ color: "#f00" });
-    browser.action.setBadgeText({ text: "New" });
+    browser.browserAction.setBadgeBackgroundColor({ color: "#f00" });
+    browser.browserAction.setBadgeText({ text: "New" });
   }
   browser.storage.local.get("simple_gestures_config", (result) => {
     if (result.simple_gestures_config) {
@@ -108,13 +108,15 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       break;
     case "config.update":
       Object.assign(config, request.updatedCconfig);
-      browser.tabs.query({}, (tabs) => {
-        tabs.forEach((t) =>
-          browser.tabs.sendMessage(t.id, {
-            msg: "tabs.config.update",
-            updatedConfig: config,
-          }),
-        );
+      browser.tabs.query({}).then((tabs) => {
+        tabs.forEach((t) => {
+          browser.tabs
+            .sendMessage(t.id, {
+              msg: "tabs.config.update",
+              updatedConfig: config,
+            })
+            .catch((error) => console.warn(error));
+        });
       });
       sendResponse({ resp: "Configuration saved!" });
       break;

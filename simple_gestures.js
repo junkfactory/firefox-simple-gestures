@@ -102,7 +102,6 @@ document.onmouseup = function (event) {
       ++suppress;
     }
   } else if (event.button == 2) {
-    // console.log('suppress is '+suppress)
     if (moved) {
       executeGesture();
     } else {
@@ -132,7 +131,6 @@ function executeGesture() {
     }
     browser.runtime.sendMessage({ msg: action, url: link }, (result) => {
       if (result != null) {
-        //console.log("result", result);
         link = null;
       }
     });
