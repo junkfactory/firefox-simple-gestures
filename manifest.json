@@ -13,7 +13,7 @@
     "default_title": "SimpleGestures options",
     "default_popup": "options.html"
   },
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "browserSettings"],
   "background": {
     "scripts": ["background.js"]
   },
