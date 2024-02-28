@@ -7,6 +7,7 @@
     "128": "app_icon.png"
   },
   "browser_action": {
+    "browser_style": true,
     "default_icon": {
       "128": "app_icon.png"
     },
