@@ -35,6 +35,7 @@ var ls,
   myWidth = 3;
 var loaded = false;
 var link = null;
+var extensionEnabled = true;
 
 function onStart(event) {
   if (!loaded) {
@@ -80,6 +81,9 @@ function onMove(event) {
 }
 
 document.onmousedown = function (event) {
+  if (!extensionEnabled) {
+    return;
+  }
   rmousedown = event.button == 2;
   if (rmousedown && suppress) {
     onStart(event);
@@ -87,6 +91,9 @@ document.onmousedown = function (event) {
 };
 
 document.onmousemove = function (event) {
+  if (!extensionEnabled) {
+    return;
+  }
   //track the mouse if we are holding the right button
   if (rmousedown) {
     onMove(event);
@@ -94,6 +101,9 @@ document.onmousemove = function (event) {
 };
 
 document.onmouseup = function (event) {
+  if (!extensionEnabled) {
+    return;
+  }
   if (rockerEnabled && event.buttons > 0) {
     if (event.button == 2) {
       browser.runtime.sendMessage({ msg: "nexttab" });
@@ -114,6 +124,9 @@ document.onmouseup = function (event) {
 };
 
 document.oncontextmenu = function () {
+  if (!extensionEnabled) {
+    return true;
+  }
   if (suppress) return false;
   else {
     rmousedown = false;
@@ -144,6 +157,10 @@ function updateConfig(config) {
   myWidth = config.trailWidth;
   myGests = config.gestures;
   gestureActionMap = invertHash(myGests);
+  extensionEnabled = config?.domains?.[window.location.hostname];
+  if (extensionEnabled === undefined) {
+    extensionEnabled = true;
+  }
 }
 
 function watchGestures(name) {

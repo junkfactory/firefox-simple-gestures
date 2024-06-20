@@ -75,7 +75,7 @@ function displayError(errorInput, errorMessage) {
 }
 
 function createOptions(config) {
-  var key, div, tr, td, select, inp, img, a;
+  var key, div, tr, td, inp;
   var gests = "gestures" in config ? config.gestures : {};
 
   if (Object.keys(gests).length == 0) gests = invertHash(defaultGestures);
@@ -91,6 +91,7 @@ function createOptions(config) {
     inp.type = "text";
     inp.name = "gvalue";
     inp.id = commandMapping[key];
+    inp.className = "config gesture";
     if (gests[commandMapping[key]]) inp.value = gests[commandMapping[key]];
     tr.appendChild(td);
     td.appendChild(inp);
@@ -116,6 +117,7 @@ function addCustomUrl(url, g) {
   inp.type = "text";
   inp.name = "url";
   inp.value = url ? url : "";
+  inp.className = "config";
   td.appendChild(inp);
   tr.appendChild(td);
   //gesture
@@ -124,6 +126,7 @@ function addCustomUrl(url, g) {
   gurl.type = "text";
   gurl.name = "gvalue";
   gurl.value = g ? g : "";
+  gurl.className = "config";
   td.appendChild(gurl);
   tr.appendChild(td);
 
@@ -195,6 +198,12 @@ function saveConfiguration(e) {
 
   config.rockerEnabled = $("#rockerEnabled").checked;
 
+  const domainUrl = $("#domain_url").innerHTML;
+  const domainEnabled = $("#domain").checked;
+  let domains = config?.domains || {};
+  domains[domainUrl] = domainEnabled;
+  config.domains = domains;
+
   var url = null;
   for (const i of $("#option_form input")) {
     if (url == null && i.name == "url") {
@@ -225,6 +234,20 @@ function saveConfiguration(e) {
     );
   });
   return false;
+}
+
+async function getCurrentUrl() {
+  let [tab] = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  return new URL(tab.url);
+}
+
+function extensionToggle(e) {
+  $(".config").forEach((c) => {
+    c.disabled = !e.target.checked;
+  });
 }
 
 // Restores select box state to saved value from local storage.
@@ -259,7 +282,14 @@ function restoreOptions() {
       }
     }
 
-    createOptions(config);
+    getCurrentUrl().then((url) => {
+      $("#domain_url").innerHTML = url.hostname;
+      let domainCheckbox = $("#domain");
+      const enabled = config?.domains?.[url.hostname];
+      domainCheckbox.checked = enabled === undefined ? true : enabled;
+      createOptions(config);
+      extensionToggle({ target: domainCheckbox });
+    });
   });
 }
 
@@ -275,4 +305,5 @@ $().addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     addCustomUrl();
   });
+  $("#domain").addEventListener("click", extensionToggle);
 });

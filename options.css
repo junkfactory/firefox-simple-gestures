@@ -66,6 +66,10 @@ input:focus.error {
   outline: none;
 }
 
+input.gesture {
+  width: 100px;
+}
+
 a.addremove {
   font-weight: bold;
   color: #fff;
@@ -124,3 +128,11 @@ input[type="submit"] {
   border-radius: 4px 4px;
 }
 
+form > div {
+  margin-bottom: 10px;
+}
+
+#domain_url {
+  font-weight: bold;
+  color: #ff8c00;
+}

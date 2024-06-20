@@ -38,27 +38,36 @@
     <p class="note">
       Note: Valid gesture values are U (up), D (down), L (left), R (right)
     </p>
-
     <form id="option_form">
-      <input type="radio" name="tabs" id="configGeneral" checked />
+      <div>
+        <label for="domain">
+          Enabled on <span id="domain_url">www.example.com</span>
+          <input type="checkbox" id="domain" />
+        </label>
+      </div>
+      <input
+        type="radio"
+        name="tabs"
+        id="configGeneral"
+        checked
+        class="config"
+      />
       <label for="configGeneral">General</label>
-      <input type="radio" name="tabs" id="configUrl" />
-      <label for="configUrl"
-        >Custom Urls <span class="beta">(beta)</span></label
-      >
+      <input type="radio" name="tabs" id="configUrl" class="config" />
+      <label for="configUrl"> Custom Urls </label>
       <div class="tab configGeneral">
         <table id="optsTab">
           <tr>
             <td><label for="trail">Show Gesture Trails:</label></td>
             <td>
-              <input type="checkbox" id="trail" />
+              <input type="checkbox" id="trail" class="config" />
             </td>
           </tr>
 
           <tr>
             <td>Gesture Color:</td>
             <td>
-              <select id="color">
+              <select id="color" class="config">
                 <option value="red" selected>red</option>
                 <option value="green">green</option>
                 <option value="blue">blue</option>
@@ -69,7 +78,7 @@
           <tr>
             <td>Gesture Width:</td>
             <td>
-              <select id="width">
+              <select id="width" class="config">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3" selected>3</option>
@@ -80,7 +89,7 @@
           </tr>
           <tr>
             <td><label for="rockerEnabled">Enable rocker gesture:</label></td>
-            <td><input type="checkbox" id="rockerEnabled" /></td>
+            <td><input type="checkbox" id="rockerEnabled" class="config" /></td>
           </tr>
           <tr>
             <td colspan="2" class="note">
