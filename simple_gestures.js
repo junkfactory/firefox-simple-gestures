@@ -157,20 +157,18 @@ function updateConfig(config) {
   myWidth = config.trailWidth;
   myGests = config.gestures;
   gestureActionMap = invertHash(myGests);
-  extensionEnabled = config?.domains?.[window.location.hostname];
-  if (extensionEnabled === undefined) {
-    extensionEnabled = true;
-  }
+  extensionEnabled =
+    !config?.disabled_domains?.includes(window.location.hostname) || false;
 }
 
-function watchGestures(name) {
+function watchGestures() {
   browser.runtime.sendMessage({ msg: "config" }, (response) => {
     if (response) {
       updateConfig(response.resp);
     }
   });
 
-  browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  browser.runtime.onMessage.addListener((request) => {
     switch (request.msg) {
       case "tabs.config.update":
         updateConfig(request.updatedConfig);
@@ -178,8 +176,6 @@ function watchGestures(name) {
     }
   });
 }
-
-document.addEventListener("DOMContentLoaded", watchGestures);
 
 function determineLink(target, allowedDrillCount) {
   if (target.href) {
@@ -190,3 +186,5 @@ function determineLink(target, allowedDrillCount) {
   }
   return null;
 }
+
+document.addEventListener("DOMContentLoaded", watchGestures);

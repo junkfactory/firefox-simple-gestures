@@ -176,18 +176,18 @@ function validateConfiguration(optionForm) {
 }
 
 // Saves options to local storage.
-function saveConfiguration(e) {
+async function saveConfiguration(e) {
   e.preventDefault();
   if (!validateConfiguration(e.target)) {
     return false;
   }
-  var select, value;
-  var config = {
-    gestures: {},
-  };
+  let store = await browser.storage.local.get("simple_gestures_config");
+  console.log("storage", store);
+  let config = store?.simple_gestures_config || { gestures: {} };
+  console.debug("config", config);
 
-  select = $("#color");
-  value = select.children[select.selectedIndex].value;
+  let select = $("#color");
+  let value = select.children[select.selectedIndex].value;
   config.trailColor = colorNameToCode[value];
 
   select = $("#width");
@@ -198,11 +198,15 @@ function saveConfiguration(e) {
 
   config.rockerEnabled = $("#rockerEnabled").checked;
 
+  let disabled_domains = config?.disabled_domains || [];
   const domainUrl = $("#domain_url").innerHTML;
   const domainEnabled = $("#domain").checked;
-  let domains = config?.domains || {};
-  domains[domainUrl] = domainEnabled;
-  config.domains = domains;
+  if (domainEnabled) {
+    removeFromArray(disabled_domains, domainUrl);
+  } else {
+    addToArrayIfNotExists(disabled_domains, domainUrl);
+  }
+  config.disabled_domains = disabled_domains;
 
   var url = null;
   for (const i of $("#option_form input")) {
@@ -220,19 +224,18 @@ function saveConfiguration(e) {
       }
     }
   }
-  browser.storage.local.set({ simple_gestures_config: config }, function () {
-    browser.runtime.sendMessage(
-      { msg: "config.update", updatedCconfig: config },
-      (result) => {
-        // Update status to let user know options were saved.
-        var status = $("#status");
-        status.innerHTML = result.resp;
-        setTimeout(() => {
-          status.innerHTML = "";
-        }, 5000);
-      },
-    );
+  await browser.storage.local.set({ simple_gestures_config: config });
+  let result = await browser.runtime.sendMessage({
+    msg: "config.update",
+    updatedCconfig: config,
   });
+
+  // Update status to let user know options were saved.
+  var status = $("#status");
+  status.innerHTML = result.resp;
+  setTimeout(() => {
+    status.innerHTML = "";
+  }, 5000);
   return false;
 }
 
@@ -285,8 +288,9 @@ function restoreOptions() {
     getCurrentUrl().then((url) => {
       $("#domain_url").innerHTML = url.hostname;
       let domainCheckbox = $("#domain");
-      const enabled = config?.domains?.[url.hostname];
-      domainCheckbox.checked = enabled === undefined ? true : enabled;
+      const disabled =
+        config?.disabled_domains?.includes(url.hostname) || false;
+      domainCheckbox.checked = !disabled;
       createOptions(config);
       extensionToggle({ target: domainCheckbox });
     });
