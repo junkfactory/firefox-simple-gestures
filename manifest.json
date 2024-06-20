@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "SimpleGestures",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A very simple mouse gestures extension",
   "icons": {
     "128": "app_icon.png"
