@@ -51,3 +51,17 @@ function isUrl(value) {
     return false;
   }
 }
+
+function removeFromArray(arr, item) {
+  let i = arr.indexOf(item);
+  while (i > -1) {
+    arr.splice(i, 1);
+    i = arr.indexOf(item);
+  }
+}
+
+function addToArrayIfNotExists(arr, item) {
+  if (arr.indexOf(item) == -1) {
+    arr.push(item);
+  }
+}
