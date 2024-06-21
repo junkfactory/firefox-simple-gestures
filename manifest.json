@@ -26,5 +26,10 @@
   "options_ui": {
     "page": "options.html",
     "open_in_tab": false
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{c5a49a85-b4b4-4711-868f-fe98173e1cad}"
+    }
   }
 }
