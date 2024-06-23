@@ -1,34 +1,35 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "SimpleGestures",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A very simple mouse gestures extension",
-  "icons": {
-    "128": "app_icon.png"
-  },
-  "browser_action": {
-    "browser_style": true,
+  "action": {
     "default_icon": {
-      "128": "app_icon.png"
+      "128": "src/resources/app_icon.png"
     },
     "default_title": "SimpleGestures options",
-    "default_popup": "options.html"
+    "default_popup": "src/options.html"
   },
   "permissions": ["activeTab", "storage", "browserSettings"],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["src/background.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["lib.js", "canvas.js", "simple_gestures.js"],
+      "js": ["src/lib.js", "src/canvas.js", "src/simple_gestures.js"],
       "all_frames": true,
       "match_about_blank": true,
       "run_at": "document_start"
     }
   ],
   "options_ui": {
-    "page": "options.html",
+    "page": "src/options.html",
     "open_in_tab": false
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{c5a49a85-b4b4-4711-868f-fe98173e1cad}"
+    }
   }
 }
