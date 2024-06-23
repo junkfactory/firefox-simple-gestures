@@ -5,26 +5,26 @@
   "description": "A very simple mouse gestures extension",
   "action": {
     "default_icon": {
-      "128": "app_icon.png"
+      "128": "src/resources/app_icon.png"
     },
     "default_title": "SimpleGestures options",
-    "default_popup": "options.html"
+    "default_popup": "src/options.html"
   },
   "permissions": ["activeTab", "storage", "browserSettings"],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["src/background.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["lib.js", "canvas.js", "simple_gestures.js"],
+      "js": ["src/lib.js", "src/canvas.js", "src/simple_gestures.js"],
       "all_frames": true,
       "match_about_blank": true,
       "run_at": "document_start"
     }
   ],
   "options_ui": {
-    "page": "options.html",
+    "page": "src/options.html",
     "open_in_tab": false
   },
   "browser_specific_settings": {
