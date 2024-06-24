@@ -100,7 +100,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
           sendResponse({ resp: "tab closed" });
         });
       });
-      break;
+      return true;
     case "newtab":
       var createProperties = {};
       if (request.url && request.url.length > 0) {
@@ -109,7 +109,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       browser.tabs.create(createProperties, function (result) {
         sendResponse({ resp: result });
       });
-      break;
+      return true;
     case "config.update":
       Object.assign(config, request.updatedCconfig);
       browser.tabs.query({}).then((tabs) => {
@@ -125,8 +125,10 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
       sendResponse({ resp: "Configuration saved!" });
       break;
     case "config":
-      sendResponse({ resp: config });
-      break;
+      browser.storage.local.get("simple_gestures_config").then((result) => {
+        sendResponse({ resp: result.simple_gestures_config });
+      });
+      return true;
     case "nexttab":
       browser.tabs.query({}, (r) => {
         switchTab(r, 1);
