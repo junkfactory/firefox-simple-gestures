@@ -297,7 +297,30 @@ function restoreOptions() {
   });
 }
 
+async function grantPermissions() {
+  let result = await browser.permissions.request({ origins: ["<all_urls>"] });
+  console.debug("Permission result", result);
+  if (result) {
+    await checkHostPermissions();
+  }
+}
+
+async function checkHostPermissions() {
+  let permissions = await browser.permissions.getAll();
+  console.debug("Permissions", permissions);
+  let askPermission = $("#askPermission");
+  let configUi = $("#configUi");
+  if (permissions.origins.includes("<all_urls>")) {
+    askPermission.style.display = "none";
+    configUi.style.display = "block";
+  } else {
+    askPermission.style.display = "block";
+    configUi.style.display = "none";
+  }
+}
+
 $().addEventListener("DOMContentLoaded", function () {
+  checkHostPermissions();
   browser.action.setBadgeText({ text: "" });
   restoreOptions();
   var tabNav = $("input[name=tabs]");
@@ -310,4 +333,5 @@ $().addEventListener("DOMContentLoaded", function () {
     addCustomUrl();
   });
   $("#domain").addEventListener("click", extensionToggle);
+  $("#grantPermissions").addEventListener("click", grantPermissions);
 });

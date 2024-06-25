@@ -86,6 +86,7 @@ a:hover,
 a:visited,
 a:active {
   text-decoration: none;
+  color: #98b9fa;
 }
 
 a:hover.addremove,

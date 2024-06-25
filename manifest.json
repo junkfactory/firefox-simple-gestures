@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SimpleGestures",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "A very simple mouse gestures extension",
   "action": {
     "default_icon": {
@@ -11,6 +11,7 @@
     "default_popup": "src/options.html"
   },
   "permissions": ["activeTab", "storage", "browserSettings"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "scripts": ["src/background.js"]
   },
