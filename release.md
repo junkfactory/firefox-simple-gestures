@@ -1,12 +1,12 @@
 # To release a new version
 
-Should improve this when i have some time
+I forget if I don't see this code in a month
 
 1. Create a new tag
 
-```
+```bash
 git tag -a <version> -m 'new features and credits'
 git push origin <version>
 ```
 
-The tag must match the version in manifest.json prefixed with `v`
+The tag must match the version in `manifest.json` prefixed with `v`
