@@ -2,7 +2,7 @@
 
 Firefox extension for simple mouse gestures. Code is based on miniGestures without any shady stuff.
 
-# Features
+## Features
 
 1. Simple configuration with just Down (D), Up (U), Left (L) and Right (R) gestures
 1. Right click on a link and gesture to open new tab will open that link in that new tab
@@ -12,4 +12,3 @@ Firefox extension for simple mouse gestures. Code is based on miniGestures witho
 See v0.1 in action at [YouTube](https://youtu.be/OOZXeHznJSU)
 
 If you like this extension, by me a beer/coffee/candy [Square CashApp](https://tiny.one/6t3hpm6a)
-
