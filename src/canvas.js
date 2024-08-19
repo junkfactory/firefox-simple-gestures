@@ -20,52 +20,69 @@
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
 // THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-function createCanvas() {
-  let canvas = $("#canvas");
-  if (!canvas) {
-    canvas = document.createElement("canvas");
-    canvas.id = "canvas";
-    document.body.appendChild(canvas);
+class Canvas {
+  #id = "canvas";
+  #config;
+  #coords;
+
+  constructor(config, coords) {
+    this.#config = config;
+    this.#coords = coords;
   }
 
-  let vw = window.visualViewport.width - window.screenX;
-  let vh = window.visualViewport.height - window.screenY;
-
-  const canvas_top = window.visualViewport.pageTop + "px";
-  canvas.style.width = canvas.width = vw;
-  canvas.style.height = canvas.height = vh;
-  canvas.style.left = "0px";
-  canvas.style.top = canvas_top;
-  canvas.style.overflow = "visible";
-  canvas.style.position = "absolute";
-  canvas.style.zIndex = "10000";
-}
-
-function destroyCanvas() {
-  const canvas = $("#canvas");
-  if (canvas) {
-    try {
-      document.body.removeChild(canvas);
-    } catch (error) {}
-  } else {
-    console.warn("Canvas not found");
+  get instance() {
+    return $("#" + this.#id);
   }
-}
 
-function draw(x, y) {
-  const canvas = $("#canvas");
-  if (canvas) {
-    const canvas_top = canvas.style.top.replace("px", "");
-    const ctx = canvas.getContext("2d");
-    ctx.beginPath();
-    ctx.strokeStyle = "#" + myColor;
-    ctx.lineWidth = myWidth;
-    ctx.moveTo(lx, ly - canvas_top);
-    ctx.lineTo(x, y - canvas_top);
-    ctx.stroke();
-    lx = x;
-    ly = y;
-  } else {
-    console.warn("Canvas not found");
+  create() {
+    let canvas = this.instance;
+    if (!canvas) {
+      canvas = document.createElement("canvas");
+      canvas.id = this.#id;
+      document.body.appendChild(canvas);
+    }
+
+    let vw = window.visualViewport.width - window.screenX;
+    let vh = window.visualViewport.height - window.screenY;
+
+    const canvas_top = window.visualViewport.pageTop + "px";
+    canvas.style.width = vw;
+    canvas.width = vw;
+    canvas.style.height = vh;
+    canvas.height = vh;
+    canvas.style.left = "0px";
+    canvas.style.top = canvas_top;
+    canvas.style.overflow = "visible";
+    canvas.style.position = "absolute";
+    canvas.style.zIndex = "10000";
+  }
+
+  draw(x, y) {
+    const canvas = this.instance;
+    if (canvas) {
+      const canvas_top = canvas.style.top.replace("px", "");
+      const ctx = canvas.getContext("2d");
+      ctx.beginPath();
+      ctx.strokeStyle = "#" + this.#config.trail.color;
+      ctx.lineWidth = this.#config.trail.width;
+      ctx.moveTo(this.#coords.last.x, this.#coords.last.y - canvas_top);
+      ctx.lineTo(x, y - canvas_top);
+      ctx.stroke();
+      this.#coords.last.x = x;
+      this.#coords.last.y = y;
+    } else {
+      console.warn("Canvas not found");
+    }
+  }
+
+  destroy() {
+    const canvas = this.instance;
+    if (canvas) {
+      try {
+        document.body.removeChild(canvas);
+      } catch (error) {}
+    } else {
+      console.warn("Canvas not found");
+    }
   }
 }
