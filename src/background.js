@@ -37,6 +37,10 @@ const config = {
     closetab: "D",
     reload: "DR",
   },
+  extras: {
+    nextPatterns: "next,more results,more,newer,>,›,→,»,≫,>>",
+    prevPatterns: "prev,previous,back,older,<,‹,←,«,≪,<<",
+  },
 };
 
 browser.runtime.onInstalled.addListener((details) => {
