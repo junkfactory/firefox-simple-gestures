@@ -5,12 +5,23 @@ class Dom {
     this.#mouse = new Mouse();
   }
 
-  #followLink(linkElement) {
+  #isLink(linkElement) {
     if (linkElement.nodeName.toLowerCase() === "link") {
+      return true;
+    }
+
+    if (linkElement.nodeName.toLowerCase() === "a" && linkElement?.href) {
+      return true;
+    }
+    return false;
+  }
+
+  #followLink(linkElement) {
+    if (this.#isLink(linkElement)) {
       window.location.href = linkElement.href;
     } else {
       //for javascript based links
-      linkElement.scrollIntoView();
+      linkElement.scrollIntoView({ behavior: "smooth", block: "start" });
       this.#mouse.click(linkElement);
     }
   }
@@ -40,9 +51,10 @@ class Dom {
     );
   }
 
-  findAndFollowLink(linkStrings) {
+  findLinkElement(linkStrings) {
     const linksXPath = this.makeXPath([
       "a",
+      "button",
       "*[@onclick or @role='link' or contains(@class, 'button')]",
     ]);
     const links = this.evaluateXPath(
@@ -88,7 +100,7 @@ class Dom {
       candidateLinks.push(link);
     }
 
-    if (candidateLinks.length == 0) return;
+    if (candidateLinks.length == 0) return false;
 
     for (const link of candidateLinks) {
       link.wordCount = link.innerText.trim().split(/\s+/).length;
@@ -96,7 +108,6 @@ class Dom {
 
     // We can use this trick to ensure that Array.sort is stable. We need this property to retain the
     // reverse in-page order of the links.
-
     candidateLinks.forEach((a, i) => (a.originalIndex = i));
 
     // favor shorter links, and ignore those that are more than one word longer than the shortest link
@@ -122,10 +133,18 @@ class Dom {
           candidateLink.getAttribute("title")?.match(exactWordRegex) ||
           candidateLink.getAttribute("aria-label")?.match(exactWordRegex)
         ) {
-          this.#followLink(candidateLink);
-          return true;
+          return candidateLink;
         }
       }
+    }
+    return false;
+  }
+
+  findAndFollowLink(linkStrings) {
+    const linkElement = this.findLinkElement(linkStrings);
+    if (linkElement) {
+      this.#followLink(linkElement);
+      return true;
     }
     return false;
   }

@@ -70,7 +70,7 @@ class SimpleGesture {
   }
 
   nextPage() {
-    const nextPatterns = "next,more,newer,>,›,→,»,≫,>>";
+    const nextPatterns = "next,more results,more,newer,>,›,→,»,≫,>>";
     const nextStrings = nextPatterns.split(",").filter((s) => s.trim().length);
     return (
       this.#dom.findAndFollowRel("next") ||
