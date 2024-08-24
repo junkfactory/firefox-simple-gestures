@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SimpleGestures",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "A very simple mouse gestures extension",
   "action": {
     "default_icon": {
@@ -19,6 +19,8 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "src/mouse.js",
+        "src/dom.js",
         "src/lib.js",
         "src/canvas.js",
         "src/mousehandler.js",

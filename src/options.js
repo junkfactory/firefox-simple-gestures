@@ -44,6 +44,8 @@ const commandMapping = {
   "Reload (bypass cache)": "reload",
   "Open New Tab": "newtab",
   "Close Current Tab": "closetab",
+  "Next Page": "nextpage",
+  "Previous Page": "prevpage",
 };
 
 function switchTab(tabId) {
