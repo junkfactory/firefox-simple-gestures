@@ -23,7 +23,6 @@
 try {
   importScripts("browser.js");
 } catch (e) {}
-
 //default configuration
 const config = {
   rockerEnabled: true,
