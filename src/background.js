@@ -23,7 +23,6 @@
 try {
   importScripts("browser.js");
 } catch (e) {}
-
 //default configuration
 const config = {
   rockerEnabled: true,
@@ -36,6 +35,10 @@ const config = {
     newtab: "U",
     closetab: "D",
     reload: "DR",
+  },
+  extras: {
+    nextPatterns: "next,more results,more,newer,>,›,→,»,≫,>>",
+    prevPatterns: "prev,previous,back,older,<,‹,←,«,≪,<<",
   },
 };
 

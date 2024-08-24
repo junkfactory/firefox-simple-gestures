@@ -58,12 +58,12 @@
         for more info about this permission.
       </p>
     </div>
-    <div id="configUi">
-      <p>Use mouse right button to hold and drag to activate a gesture.</p>
-      <p class="note">
-        Note: Valid gesture values are U (up), D (down), L (left), R (right)
-      </p>
-      <form id="option_form">
+    <form id="option_form">
+      <div id="configUi">
+        <p>Use mouse right button to hold and drag to activate a gesture.</p>
+        <p class="note">
+          Note: Valid gesture values are U (up), D (down), L (left), R (right)
+        </p>
         <div id="domain_container">
           <label for="domain">
             Enabled on <span id="domain_url">www.example.com</span>
@@ -80,6 +80,8 @@
         <label for="configGeneral">General</label>
         <input type="radio" name="tabs" id="configUrl" class="config" />
         <label for="configUrl"> Custom Urls </label>
+        <input type="radio" name="tabs" id="configExtras" class="config" />
+        <label for="configExtras"> Extras <span class="beta">beta</span></label>
         <div class="tab configGeneral">
           <table id="optsTab">
             <tr>
@@ -136,6 +138,9 @@
             If "Open New Tab" is assigned, right click + drag on a link will
             open that link.
           </p>
+          <p class="note">
+            To disable a gesture, leave the gesture field empty.
+          </p>
         </div>
         <div class="tab configUrl">
           <table id="customUrlTab">
@@ -159,13 +164,45 @@
             </tr>
           </table>
         </div>
-        <div>
-          <input type="submit" value="Save configuration" />
-          <div id="status"></div>
+        <div class="tab configExtras">
+          <p class="note">
+            These are patterns for the next and previous page links. Required
+            with next/previous page gestures. (i.e. google results has named the
+            next page link with "Next")
+          </p>
+          <table id="extraConfigTab">
+            <tr>
+              <th>Next page patterns</th>
+              <td>
+                <input
+                  type="text"
+                  name="nextPatterns"
+                  class="extra"
+                  value="next,more results,more,newer,>,›,→,»,≫,>>"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Previos page patterns</th>
+              <td>
+                <input
+                  type="text"
+                  name="prevPatterns"
+                  class="extra"
+                  value="prev,previous,back,older,<,‹,←,«,≪,<<"
+                />
+              </td>
+            </tr>
+          </table>
         </div>
-      </form>
-    </div>
+      </div>
+      <div id="configStatus">
+        <input type="submit" value="Save configuration" />
+        <div id="status"></div>
+      </div>
+    </form>
   </body>
   <script src="lib.js"></script>
   <script src="options.js"></script>
+  <script src="browser.js"></script>
 </html>
